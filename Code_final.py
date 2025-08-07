@@ -80,4 +80,5 @@ if st.button("Siguiente ronda"):
 st.markdown("---")
 st.markdown("### Historial de rondas:")
 for i, (vos, nos) in enumerate(st.session_state.historial, start=1):
-    st.markdown(f"- **Ronda {i}**: Vos: `{vos}` – Nos: `{nos}`    {st.session_state.total_vos} - {st.session_state.total_nos} ")
+    st.markdown(f"- **Ronda {i}**: Vos: `{vos}` – Nos: `{nos}` ")
+{st.session_state.total_vos} - {st.session_state.total_nos}
