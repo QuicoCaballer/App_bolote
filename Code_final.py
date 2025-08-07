@@ -1,83 +1,106 @@
 import streamlit as st
 
-st.set_page_config(page_title="Marcador", layout="wide")
+# Inicializar estado
+if 'total_vos' not in st.session_state:
+    st.session_state.total_vos = 0
+if 'total_nos' not in st.session_state:
+    st.session_state.total_nos = 0
+if 'historial_vos' not in st.session_state:
+    st.session_state.historial_vos = []
+if 'historial_nos' not in st.session_state:
+    st.session_state.historial_nos = []
+if 'input_vos' not in st.session_state:
+    st.session_state.input_vos = ""
+if 'input_nos' not in st.session_state:
+    st.session_state.input_nos = ""
 
-# Inicialización del estado
-for key in [
-    'input_vos', 'input_nos', 
-    'total_vos', 'total_nos', 
-    'historial', 
-    'rapido_vos', 'rapido_nos'
-]:
-    if key not in st.session_state:
-        if key == 'historial':
-            st.session_state[key] = []
-        else:
-            st.session_state[key] = 0
+# Estilo visual
+st.markdown("""
+    <style>
+        .historial {
+            font-size: 0.85rem;
+            color: gray;
+            margin-top: 0.5rem;
+        }
+        .puntos-totales {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+        .stTextInput input {
+            text-align: center;
+        }
+        .row-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            flex: 1;
+            margin-right: 10px;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
-st.title("Marcador Truco - Vos / Nos")
+st.title("Marcador Truco")
 
-# Columnas para vos y nos
+# Crear columnas
 col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("Vos")
-    input_vos = st.number_input("Puntos ronda (Vos)", min_value=0, max_value=162, key="input_vos_col")
-    if input_vos:
-        st.session_state.input_vos = input_vos
-        st.session_state.input_nos = 162 - input_vos
+    input_vos = st.text_input("Puntos ronda (Vos)", key="input_vos", label_visibility="collapsed")
+    st.markdown(f"<div class='puntos-totales'>Puntos totales: {st.session_state.total_vos}</div>", unsafe_allow_html=True)
+    st.markdown("<div class='historial'>" + "<br>".join(map(str, st.session_state.historial_vos[::-1])) + "</div>", unsafe_allow_html=True)
 
-    # Botones rápidos solo afectan a Vos
-    st.markdown("**Puntuaciones rápidas**")
-    if st.button("Tercera (20 punto)", key="tercera_vos"):
-        st.session_state.rapido_vos += 20
-    if st.button("Bolote_Rebolote (20)", key="bolote_vos"):
-        st.session_state.rapido_vos += 20
-    for pts in [50, 100, 150, 200]:
-        if st.button(f"{pts} puntos", key=f"rapido_{pts}_vos"):
-            st.session_state.rapido_vos += pts
+    if st.button("Tercera (20)", key="t_vos"):
+        st.session_state.total_vos += 20
+        st.session_state.historial_vos.append(3)
 
-    st.markdown(f"**Total Vos:** {st.session_state.total_vos} (+{st.session_state.rapido_vos})")
+    if st.button("Bolete / Rebolote (20)", key="b_vos"):
+        st.session_state.total_vos += 20
+        st.session_state.historial_vos.append(20)
+
+    for val in [50, 100, 150, 200]:
+        if st.button(f"{val}", key=f"{val}_vos"):
+            st.session_state.total_vos += val
+            st.session_state.historial_vos.append(val)
 
 with col2:
     st.subheader("Nos")
-    input_nos = st.number_input("Puntos ronda (Nos)", min_value=0, max_value=162, key="input_nos_col")
-    if input_nos:
-        st.session_state.input_nos = input_nos
-        st.session_state.input_vos = 162 - input_nos
+    input_nos = st.text_input("Puntos ronda (Nos)", key="input_nos", label_visibility="collapsed")
+    st.markdown(f"<div class='puntos-totales'>Puntos totales: {st.session_state.total_nos}</div>", unsafe_allow_html=True)
+    st.markdown("<div class='historial'>" + "<br>".join(map(str, st.session_state.historial_nos[::-1])) + "</div>", unsafe_allow_html=True)
 
-    # Botones rápidos solo afectan a Nos
-    st.markdown("**Puntuaciones rápidas**")
-    if st.button("Tercera (20 punto)", key="tercera_nos"):
-        st.session_state.rapido_nos += 20
-    if st.button("Bolote_Rebolote (20)", key="bolote_nos"):
-        st.session_state.rapido_nos += 20
-    for pts in [50, 100, 150, 200]:
-        if st.button(f"{pts} puntos", key=f"rapido_{pts}_nos"):
-            st.session_state.rapido_nos += pts
+    if st.button("Tercera (20)", key="t_nos"):
+        st.session_state.total_nos += 20
+        st.session_state.historial_nos.append(3)
 
-    st.markdown(f"**Total Nos:** {st.session_state.total_nos} (+{st.session_state.rapido_nos})")
+    if st.button("Bolete / Rebolote (20)", key="b_nos"):
+        st.session_state.total_nos += 20
+        st.session_state.historial_nos.append(20)
 
-# Botón para pasar a la siguiente ronda
+    for val in [50, 100, 150, 200]:
+        if st.button(f"{val}", key=f"{val}_nos"):
+            st.session_state.total_nos += val
+            st.session_state.historial_nos.append(val)
+
+# Botón siguiente ronda
 if st.button("Siguiente ronda"):
-    ronda_vos = st.session_state.input_vos
-    ronda_nos = st.session_state.input_nos
+    try:
+        if input_vos and not input_nos:
+            puntos = int(input_vos)
+            st.session_state.total_vos += puntos
+            st.session_state.total_nos += 162 - puntos
+            st.session_state.historial_vos.append(puntos)
+            st.session_state.historial_nos.append(162 - puntos)
+        elif input_nos and not input_vos:
+            puntos = int(input_nos)
+            st.session_state.total_nos += puntos
+            st.session_state.total_vos += 162 - puntos
+            st.session_state.historial_nos.append(puntos)
+            st.session_state.historial_vos.append(162 - puntos)
 
-    st.session_state.total_vos += ronda_vos + st.session_state.rapido_vos
-    st.session_state.total_nos += ronda_nos + st.session_state.rapido_nos
-
-    st.session_state.historial.append(
-        (ronda_vos + st.session_state.rapido_vos, ronda_nos + st.session_state.rapido_nos)
-    )
-
-    # Reset inputs y puntos rápidos
-    st.session_state.input_vos = 0
-    st.session_state.input_nos = 0
-    st.session_state.rapido_vos = 0
-    st.session_state.rapido_nos = 0
-
-# Historial en sombreado
-st.markdown("---")
-st.markdown("### Historial de rondas:")
-for i, (vos, nos) in enumerate(st.session_state.historial, start=1):
-    st.markdown(f"- **Ronda {i}**: Vos: `{vos}` – Nos: `{nos}`")
+        st.session_state.input_vos = ""
+        st.session_state.input_nos = ""
+    except ValueError:
+        st.error("Introduce un número válido.")
