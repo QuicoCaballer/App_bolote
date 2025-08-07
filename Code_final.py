@@ -35,6 +35,8 @@ with col1:
     for pts in [50, 100, 150, 200]:
         if st.button(f"{pts} puntos", key=f"rapido_{pts}_vos"):
             st.session_state.rapido_vos += pts
+    if st.button("Capote", key="capote_vos"):
+        st.session_state.rapido_vos += 252
 
 with col2:
     st.subheader("Nos")
@@ -51,6 +53,8 @@ with col2:
     for pts in [50, 100, 150, 200]:
         if st.button(f"{pts} puntos", key=f"rapido_{pts}_nos"):
             st.session_state.rapido_nos += pts
+    if st.button("Capote", key="capote_nos"):
+        st.session_state.rapido_vos += 252
 
 
 st.markdown("---")
