@@ -1,64 +1,84 @@
 import streamlit as st
 
-# Inicializar variables en sesión
+# Constante
+PUNTOS_TOTALES = 162
+
+# Inicializar estado si es la primera vez
 if "total_vos" not in st.session_state:
     st.session_state.total_vos = 0
-if "total_nos" not in st.session_state:
     st.session_state.total_nos = 0
+    st.session_state.historial_vos = []
+    st.session_state.historial_nos = []
+    st.session_state.input_vos = 0
+    st.session_state.input_nos = 0
 
-st.set_page_config(page_title="Puntos Vos y Nos", layout="centered")
+# Función: calcular el otro input automáticamente
+def actualizar_inputs():
+    vos = st.session_state.input_vos
+    nos = st.session_state.input_nos
+    # Si solo se ha rellenado Vos
+    if vos and not nos:
+        st.session_state.input_nos = max(0, PUNTOS_TOTALES - vos)
+    # Si solo se ha rellenado Nos
+    elif nos and not vos:
+        st.session_state.input_vos = max(0, PUNTOS_TOTALES - nos)
 
+# Título
 st.title("🎯 Puntos Vos y Nos")
 
+# Entradas
 col1, col2 = st.columns(2)
 
-# --- Columna Vos ---
 with col1:
     st.subheader("Vos")
-    puntos_vos = st.number_input("Puntos ronda (Vos)", min_value=0, step=1, key="puntos_vos_input")
-    if st.button("➕ Otra ronda Vos"):
-        st.session_state.total_vos += puntos_vos
-    st.markdown(f"**Total acumulado: {st.session_state.total_vos} puntos**")
+    st.number_input("Puntos ronda", key="input_vos", min_value=0, max_value=162, step=1, on_change=actualizar_inputs)
+    st.markdown(f"**Total acumulado:** {st.session_state.total_vos}")
 
-    st.markdown("### Sumar rápido:")
-    if st.button("Tercera (20)", key="vos_tercera"):
-        st.session_state.total_vos += 20
-    if st.button("Bolote_Rebolote (20)", key="vos_bolote"):
-        st.session_state.total_vos += 20
-    if st.button("+50", key="vos_50"):
-        st.session_state.total_vos += 50
-    if st.button("+100", key="vos_100"):
-        st.session_state.total_vos += 100
-    if st.button("+150", key="vos_150"):
-        st.session_state.total_vos += 150
-    if st.button("+200", key="vos_200"):
-        st.session_state.total_vos += 200
-
-# --- Columna Nos ---
 with col2:
     st.subheader("Nos")
-    puntos_nos = st.number_input("Puntos ronda (Nos)", min_value=0, step=1, key="puntos_nos_input")
-    if st.button("➕ Otra ronda Nos"):
+    st.number_input("Puntos ronda", key="input_nos", min_value=0, max_value=162, step=1, on_change=actualizar_inputs)
+    st.markdown(f"**Total acumulado:** {st.session_state.total_nos}")
+
+# Botón único
+if st.button("➕ Siguiente ronda"):
+    puntos_vos = st.session_state.input_vos
+    puntos_nos = st.session_state.input_nos
+
+    # Validar que suman 162
+    if puntos_vos + puntos_nos != PUNTOS_TOTALES:
+        st.error("La suma de puntos debe ser exactamente 162.")
+    else:
+        # Acumular totales
+        st.session_state.total_vos += puntos_vos
         st.session_state.total_nos += puntos_nos
-    st.markdown(f"**Total acumulado: {st.session_state.total_nos} puntos**")
 
-    st.markdown("### Sumar rápido:")
-    if st.button("Tercera (20)", key="nos_tercera"):
-        st.session_state.total_nos += 20
-    if st.button("Bolote_Rebolote (20)", key="nos_bolote"):
-        st.session_state.total_nos += 20
-    if st.button("+50", key="nos_50"):
-        st.session_state.total_nos += 50
-    if st.button("+100", key="nos_100"):
-        st.session_state.total_nos += 100
-    if st.button("+150", key="nos_150"):
-        st.session_state.total_nos += 150
-    if st.button("+200", key="nos_200"):
-        st.session_state.total_nos += 200
+        # Guardar en historial
+        st.session_state.historial_vos.append(puntos_vos)
+        st.session_state.historial_nos.append(puntos_nos)
 
-# Botón de reset
+        # Reset inputs
+        st.session_state.input_vos = 0
+        st.session_state.input_nos = 0
+        st.experimental_rerun()
+
+# Historial
 st.markdown("---")
-if st.button("🔁 Reiniciar totales"):
-    st.session_state.total_vos = 0
-    st.session_state.total_nos = 0
+st.subheader("📜 Historial de rondas")
+
+col1_hist, col2_hist = st.columns(2)
+with col1_hist:
+    st.markdown("**Vos**")
+    for i, val in enumerate(st.session_state.historial_vos, 1):
+        st.markdown(f"- Ronda {i}: {val}", help="Puntos de Vos")
+
+with col2_hist:
+    st.markdown("**Nos**")
+    for i, val in enumerate(st.session_state.historial_nos, 1):
+        st.markdown(f"- Ronda {i}: {val}", help="Puntos de Nos")
+
+# Botón de reinicio
+st.markdown("---")
+if st.button("🔁 Reiniciar todo"):
+    for key in st.session_state.keys():
+        del st.session_state[key]
     st.experimental_rerun()
