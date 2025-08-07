@@ -18,7 +18,7 @@ for key in [
 st.title("BOLOTE")
 
 # Columnas para vos y nos
-col1, col2 = st.columns(2)
+col1, col2 = st.columns(1)
 
 with col1:
     st.subheader("Vos")
