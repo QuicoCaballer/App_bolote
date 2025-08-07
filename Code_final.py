@@ -37,7 +37,7 @@ with col1:
         if st.button(f"{pts} puntos", key=f"rapido_{pts}_vos"):
             st.session_state.rapido_vos += pts
 
-    st.markdown(f"**Total Vos:** {st.session_state.total_vos} (+{st.session_state.rapido_vos})")
+    st.markdown(f"**Total Vos:** {st.session_state.total_vos}")
 
 with col2:
     st.subheader("Nos")
@@ -56,7 +56,7 @@ with col2:
         if st.button(f"{pts} puntos", key=f"rapido_{pts}_nos"):
             st.session_state.rapido_nos += pts
 
-    st.markdown(f"**Total Nos:** {st.session_state.total_nos} (+{st.session_state.rapido_nos})")
+    st.markdown(f"**Total Nos:** {st.session_state.total_nos}")
 
 # Botón para pasar a la siguiente ronda
 if st.button("Siguiente ronda"):
@@ -80,4 +80,4 @@ if st.button("Siguiente ronda"):
 st.markdown("---")
 st.markdown("### Historial de rondas:")
 for i, (vos, nos) in enumerate(st.session_state.historial, start=1):
-    st.markdown(f"- **Ronda {i}**: Vos: `{vos}` – Nos: `{nos}`")
+    st.markdown(f"- **Ronda {i}**: Vos: `{vos}` – Nos: `{nos}`    {st.session_state.total_vos} - {st.session_state.total_nos} ")
