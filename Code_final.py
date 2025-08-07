@@ -29,8 +29,8 @@ with col1:
 
     # Botones rápidos solo afectan a Vos
     st.markdown("**Puntuaciones rápidas**")
-    if st.button("Tercera (1 punto)", key="tercera_vos"):
-        st.session_state.rapido_vos += 1
+    if st.button("Tercera (20 punto)", key="tercera_vos"):
+        st.session_state.rapido_vos += 20
     if st.button("Bolote_Rebolote (20)", key="bolote_vos"):
         st.session_state.rapido_vos += 20
     for pts in [50, 100, 150, 200]:
@@ -48,8 +48,8 @@ with col2:
 
     # Botones rápidos solo afectan a Nos
     st.markdown("**Puntuaciones rápidas**")
-    if st.button("Tercera (1 punto)", key="tercera_nos"):
-        st.session_state.rapido_nos += 1
+    if st.button("Tercera (20 punto)", key="tercera_nos"):
+        st.session_state.rapido_nos += 20
     if st.button("Bolote_Rebolote (20)", key="bolote_nos"):
         st.session_state.rapido_nos += 20
     for pts in [50, 100, 150, 200]:
