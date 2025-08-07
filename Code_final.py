@@ -52,6 +52,11 @@ with col2:
         if st.button(f"{pts} puntos", key=f"rapido_{pts}_nos"):
             st.session_state.rapido_nos += pts
 
+
+st.markdown("---")
+
+
+
 # Botón para pasar a la siguiente ronda
 if st.button("Siguiente ronda"):
     ronda_vos = st.session_state.input_vos
@@ -71,7 +76,6 @@ if st.button("Siguiente ronda"):
     st.session_state.rapido_nos = 0
 
 # Historial en sombreado
-st.markdown("---")
 st.markdown("### Marcador:")
 for i, (vos, nos) in enumerate(st.session_state.historial, start=1):
     st.markdown(f"- **Ronda {i}**: Vos: `{vos}` – Nos: `{nos}` ")
