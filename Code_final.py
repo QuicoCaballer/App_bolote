@@ -100,9 +100,9 @@ if st.button("Siguiente ronda"):
             st.session_state.historial_nos.append(puntos)
             st.session_state.historial_vos.append(162 - puntos)
 
-        if "input_vos" in st.session_state:
+        if "input_vos" not in st.session_state:
             st.session_state.input_vos = ""
-        if "input_nos" in st.session_state:
+        if "input_nos" not in st.session_state:
             st.session_state.input_nos = ""
     except ValueError:
         st.error("Introduce un número válido.")
