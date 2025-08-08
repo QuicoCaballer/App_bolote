@@ -13,7 +13,7 @@ for key in [
         if key == 'historial':
             st.session_state[key] = []
         else:
-            st.session_state[key] = 0
+            st.session_state[key] = ""
 
 st.title("BOLOTE")
 
