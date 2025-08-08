@@ -25,8 +25,8 @@ with col1:
     st.subheader("Nos")
     input_nos = st.number_input("Puntuación", min_value=0, max_value=162, key="input_nos_col")
     if input_nos:
-        st.session_state.input_nos_col= input_nos
-        st.session_state.input_vos_col= 162 - input_nos
+        st.session_state.input_nos= input_nos
+        st.session_state.input_vos= 162 - input_nos
 
     # Botones rápidos solo afectan a Nos
     if st.button("Tercera", key="tercera_nos"):
