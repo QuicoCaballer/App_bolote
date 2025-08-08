@@ -76,7 +76,7 @@ if st.button("Siguiente ronda"):
 
     # Reset inputs y puntos rápidos
     st.session_state.input_vos = 0
-    st.session_state.input_no = 0
+    st.session_state.input_nos = 0
     st.session_state.rapido_vos = 0
     st.session_state.rapido_nos = 0
 
