@@ -23,7 +23,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("Nos")
-    input_nos = st.number_input("Puntuación", min_value=0, max_value=162, key="input_nos_col")
+    input_nos = st.number_input("Puntuación", min_value=0, max_value=162, key="input_nos")
     if input_nos:
         st.session_state.input_nos = input_nos
         st.session_state.input_vos = 162 - input_nos
@@ -41,7 +41,7 @@ with col1:
 
 with col2:
     st.subheader("Vos")
-    input_vos = st.number_input("Puntuación", min_value=0, max_value=162, key="input_vos_col")
+    input_vos = st.number_input("Puntuación", min_value=0, max_value=162, key="input_vos")
     if input_vos:
         st.session_state.input_vos = input_vos
         st.session_state.input_nos = 162 - input_vos
@@ -75,8 +75,8 @@ if st.button("Siguiente ronda"):
     )
 
     # Reset inputs y puntos rápidos
-    st.session_state.input_vos_col = 0
-    st.session_state.input_nos_col = 0
+    st.session_state.input_vos = 0
+    st.session_state.input_no = 0
     st.session_state.rapido_vos = 0
     st.session_state.rapido_nos = 0
 
