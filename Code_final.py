@@ -20,25 +20,8 @@ st.title("BOLOTE")
 # Columnas para vos y nos
 col1, col2 = st.columns(2)
 
+
 with col1:
-    st.subheader("Vos")
-    input_vos = st.number_input("Puntuación", min_value=0, max_value=162, key="input_vos_col")
-    if input_vos:
-        st.session_state.input_vos = input_vos
-        st.session_state.input_nos = 162 - input_vos
-
-    # Botones rápidos solo afectan a Vos
-    if st.button("Tercera", key="tercera_vos"):
-        st.session_state.rapido_vos += 20
-    if st.button("Bolote_Rebolote", key="bolote_vos"):
-        st.session_state.rapido_vos += 20
-    for pts in [50, 100, 150, 200]:
-        if st.button(f"{pts} puntos", key=f"rapido_{pts}_vos"):
-            st.session_state.rapido_vos += pts
-    if st.button("Capote", key="capote_vos"):
-        st.session_state.rapido_vos += 252
-
-with col2:
     st.subheader("Nos")
     input_nos = st.number_input("Puntuación", min_value=0, max_value=162, key="input_nos_col")
     if input_nos:
@@ -54,6 +37,24 @@ with col2:
         if st.button(f"{pts} puntos", key=f"rapido_{pts}_nos"):
             st.session_state.rapido_nos += pts
     if st.button("Capote", key="capote_nos"):
+        st.session_state.rapido_vos += 252
+
+with col2:
+    st.subheader("Vos")
+    input_vos = st.number_input("Puntuación", min_value=0, max_value=162, key="input_vos_col")
+    if input_vos:
+        st.session_state.input_vos = input_vos
+        st.session_state.input_nos = 162 - input_vos
+
+    # Botones rápidos solo afectan a Vos
+    if st.button("Tercera", key="tercera_vos"):
+        st.session_state.rapido_vos += 20
+    if st.button("Bolote_Rebolote", key="bolote_vos"):
+        st.session_state.rapido_vos += 20
+    for pts in [50, 100, 150, 200]:
+        if st.button(f"{pts} puntos", key=f"rapido_{pts}_vos"):
+            st.session_state.rapido_vos += pts
+    if st.button("Capote", key="capote_vos"):
         st.session_state.rapido_vos += 252
 
 
