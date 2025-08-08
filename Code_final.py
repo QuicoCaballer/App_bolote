@@ -79,8 +79,7 @@ if st.button("Siguiente ronda"):
     st.session_state.input_nos = 0
     st.session_state.rapido_vos = 0
     st.session_state.rapido_nos = 0
-    st.session_state.input_vos_col= 0
-    st.session_state.input_nos_col = 0
+    
 # Historial en sombreado
 st.markdown("### Marcador:")
 for i, (vos, nos) in enumerate(st.session_state.historial, start=1):
